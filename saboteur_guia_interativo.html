@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saboteur | Guia interativo</title>
+<style>
+:root{color-scheme:dark;--bg:#191612;--panel:#26211a;--line:#4e4130;--gold:#ffce76;--text:#f7efe2;--muted:#d5c6b0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.6 system-ui,sans-serif}
+main{max-width:850px;margin:auto;padding:clamp(16px,5vw,48px)}
+h1,h2,h3,p{margin:0}
+h1{font:700 clamp(2.6rem,9vw,5rem)/1 Georgia,serif;color:var(--gold)}
+h2{font:700 1.65rem Georgia,serif;margin-bottom:.7rem}
+h3{font-size:1.05rem;margin-top:1rem;color:var(--gold)}
+p+p{margin-top:.65rem}
+header p,footer{color:var(--muted);margin-top:.7rem}
+section{margin-top:1.15rem;padding:clamp(14px,3vw,26px);border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+label{font-weight:700}
+select{font:inherit;margin-left:.5rem;padding:.25rem .65rem;border:1px solid var(--gold);border-radius:7px;background:var(--bg);color:var(--text)}
+a{color:var(--gold)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,155px),1fr));gap:.65rem;margin:1rem 0}
+dl div{border:1px solid var(--line);padding:.65rem .85rem;border-radius:9px}
+dt{color:var(--muted);font-size:.9rem}
+dd{font-size:1.5rem;color:var(--gold);font-weight:700;margin:0}
+ol,ul{padding-left:1.35rem;margin:.6rem 0 0}
+li+li{margin-top:.4rem}
+figure{margin:1rem 0}
+.board{display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(5,1fr);gap:clamp(2px,1vw,7px);max-width:450px}
+.board span{display:grid;place-items:center;aspect-ratio:1.25;border:1px dashed var(--line);border-radius:5px;font-size:clamp(.6rem,3vw,1rem)}
+.board .card{color:var(--gold);background:var(--bg);border:1px solid var(--gold);font-weight:700}
+figcaption{color:var(--muted);font-size:.9rem;margin-top:.4rem}
+</style>
+</head>
+<body>
+<main>
+<header><h1>Saboteur</h1><p>Guia interativo do jogo base · 3 a 10 jogadores · 3 rodadas</p></header>
+<section aria-labelledby="preparo"><h2 id="preparo">Preparação da rodada</h2>
+<label for="players">Jogadores</label>
+<select id="players">
+<option>3</option>
+<option>4</option>
+<option selected>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+</select>
+<div id="setup" aria-live="polite" aria-atomic="true">
+<dl>
+<div><dt>Cartas por mão</dt><dd id="hand">6</dd></div>
+<div><dt>Cartas nas mãos</dt><dd id="dealt">30</dd></div>
+<div><dt>Monte de compra</dt><dd id="draw">37</dd></div>
+<div><dt>Cartas de minerador</dt><dd id="miners">4</dd></div>
+<div><dt>Cartas de sabotador</dt><dd id="saboteurs">2</dd></div>
+<div><dt>Papéis distribuídos</dt><dd id="roles">5</dd></div>
+</dl>
+<p id="secret">Embaralhe os papéis, distribua um em segredo a cada jogador e reserve a carta que sobrar virada para baixo. Nesta rodada pode haver 1 ou 2 sabotadores em jogo.</p>
+</div>
+<ol>
+<li>Separe a escada e os três objetivos (um ouro e duas pedras). Embaralhe os objetivos e coloque-os virados para baixo em uma coluna à direita. Alinhe o objetivo do meio com a escada.</li>
+<li>Deixe <strong>7 espaços vazios na horizontal</strong> entre a escada e a coluna dos objetivos. A coluna fica na 9ª posição contando a escada como a primeira. Deixe <strong>1 espaço vazio na vertical</strong> entre cada par de objetivos vizinhos.</li>
+<li>Embaralhe as 40 cartas de caminho restantes com as 27 de ação. Distribua a mão inicial e deixe o restante como monte de compra. Separe espaço para o descarte e reserve as 28 cartas de ouro para a premiação.</li>
+</ol>
+<figure>
+<div class="board" aria-hidden="true">
+<span class="card" style="grid-area:3/1">↑</span>
+<span style="grid-area:3/2">1</span><span style="grid-area:3/3">2</span><span style="grid-area:3/4">3</span><span style="grid-area:3/5">4</span><span style="grid-area:3/6">5</span><span style="grid-area:3/7">6</span><span style="grid-area:3/8">7</span>
+<span class="card" style="grid-area:1/9">?</span><span style="grid-area:2/9"></span><span class="card" style="grid-area:3/9">?</span><span style="grid-area:4/9"></span><span class="card" style="grid-area:5/9">?</span>
+</div>
+<figcaption>↑ Escada inicial · ? Objetivo virado para baixo</figcaption>
+</figure>
+</section>
+<section><h2>Como jogar</h2>
+<p>No seu turno, coloque uma carta de caminho, jogue uma carta de ação ou passe descartando uma carta da mão virada para baixo. Depois, compre uma carta se ainda houver cartas no monte.</p>
+<h3>Caminhos</h3>
+<p>Coloque a carta ao lado de outra, sem girá-la 90°. As bordas vizinhas devem combinar, e a nova carta precisa ficar ligada à escada por um túnel contínuo.</p>
+<p><strong>Basta um caminho contínuo válido da escada até o ouro.</strong> As outras ramificações podem ficar incompletas. Ao alcançar um objetivo por um túnel contínuo, revele-o. Se for pedra, a rodada continua. Ao revelar um objetivo, o manual permite que uma de suas bordas fique sem encaixe se necessário.</p>
+<h3>Ações</h3>
+<ul>
+<li><strong>Sabotagem</strong> — quebre uma ferramenta de outro jogador. Enquanto tiver uma ferramenta quebrada, ele pode jogar ações ou descartar. Cada jogador só pode ter uma sabotagem de cada tipo.</li>
+<li><strong>Reparo</strong> — remova uma sabotagem com símbolo correspondente de você ou de outro jogador. Um reparo com dois símbolos conserta apenas uma das ferramentas indicadas. Descarte as duas cartas usadas.</li>
+<li><strong>Desmoronamento</strong> — retire uma carta de caminho da mesa. A escada e os objetivos ficam no lugar. Descarte a carta retirada e a de desmoronamento.</li>
+<li><strong>Mapa</strong> — olhe em segredo um objetivo coberto, devolva-o ao mesmo lugar e descarte o mapa.</li>
+</ul>
+</section>
+<section><h2>Fim da rodada</h2>
+<p><strong>Quando o monte acaba, a rodada continua.</strong> Use as cartas da mão, sem comprar nem reembaralhar o descarte. Se tiver cartas mas não puder jogar, passe descartando uma. Quem estiver de mão vazia pula a vez.</p>
+<p>A rodada termina assim que um caminho contínuo chega ao ouro ou quando ninguém mais tem cartas na mão para jogar ou descartar. Revelem os papéis ao fim da rodada.</p>
+</section>
+<section><h2>Pontuação e fim da partida</h2>
+<p><strong>Mineradores vencem a rodada</strong> se o ouro for alcançado. Compre uma carta de ouro por minerador em jogo. Quem completou o caminho, se for minerador, escolhe primeiro. Se foi um sabotador, começa o primeiro minerador à sua direita. Os demais mineradores escolhem uma cada, em sentido anti-horário.</p>
+<p><strong>Sabotadores vencem a rodada</strong> se o ouro ficar inalcançado. Um sabotador sozinho recebe 4 pepitas. Com 2 ou 3 sabotadores, cada um recebe 3. Com 4, cada um recebe 2. Se o ouro ficar inalcançado em uma rodada sem sabotadores, ninguém recebe ouro.</p>
+<p>Guarde o ouro em segredo. Antes da próxima rodada, refaça a preparação, com novos papéis e mãos. Começa quem estiver à esquerda de quem jogou a última carta. Após <strong>3 rodadas</strong>, vence quem tiver mais pepitas. Em caso de empate, a vitória é compartilhada.</p>
+</section>
+<footer><a href="https://blog.amigo-spiele.de/content/ap/rule/04900-GB-AmigoRule.pdf">Manual oficial da AMIGO</a></footer>
+</main>
+<script>
+const roles = [
+  [3, 1], [4, 1], [4, 2], [5, 2],
+  [5, 3], [6, 3], [7, 3], [7, 4]
+];
+const players = document.getElementById("players");
+function updateSetup() {
+  const count = Number(players.value);
+  const [miners, saboteurs] = roles[count - 3];
+  const hand = count <= 5 ? 6 : count <= 7 ? 5 : 4;
+  const dealt = count * hand;
+  const values = {
+    hand, dealt, draw: 40 + 27 - dealt, miners, saboteurs, roles: count
+  };
+  for (const [id, value] of Object.entries(values)) {
+    document.getElementById(id).textContent = value;
+  }
+  const range = saboteurs === 1 ? "0 ou 1 sabotador" : `${saboteurs - 1} ou ${saboteurs} sabotadores`;
+  document.getElementById("secret").textContent =
+    `Embaralhe os papéis, distribua um em segredo a cada jogador e reserve a carta que sobrar virada para baixo. Nesta rodada pode haver ${range} em jogo.`;
+}
+players.addEventListener("change", updateSetup);
+updateSetup();
+</script>
+</body>
+</html>
